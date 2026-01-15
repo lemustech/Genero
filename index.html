@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gender Reveal - Familia Lemus Díaz</title>
+
+    <!-- Configuración para Vista Previa en WhatsApp (Open Graph) -->
+    <meta property="og:title" content="Gender Reveal - Familia Lemus Díaz">
+    <meta property="og:description"
+        content="¿Será niño o niña? Te invitamos a descubrirlo con nosotros. Confirma tu asistencia aquí.">
+    <meta property="og:image" content="http://lemustech.net/impresion-pie-bebe-colores-azul-rosa_999327-61445.avif">
+    <meta property="og:image:type" content="image/avif">
+    <meta property="og:url" content="https://lemustech.github.io/Genero/">
+    <meta property="og:type" content="website">
+
     <link rel="icon" type="image/avif"
         href="http://lemustech.net/icono-huellas-bebe-rosa-azul-forma-corazon_118339-7388.avif">
 
@@ -38,7 +48,6 @@
             font-family: 'Cormorant Garamond', serif;
         }
 
-        /* Fondo Etereo */
         .ethereal-bg {
             position: fixed;
             inset: 0;
@@ -65,7 +74,6 @@
             }
         }
 
-        /* Tarjeta */
         .invitation-card {
             background: #FFFFFF;
             border: 1px solid rgba(226, 232, 240, 0.8);
@@ -83,7 +91,6 @@
             transform: translateY(0);
         }
 
-        /* Selectores */
         .team-selector {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: #F8FAFC;
@@ -137,13 +144,52 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
-        /* Modal Overlay */
         .modal-blur {
             backdrop-filter: blur(8px);
             background: rgba(26, 32, 44, 0.4);
         }
 
-        /* Countdown Style - BIGGER VERSION */
+        /* Flechas animadas */
+        .arrow-float {
+            animation: arrowBounce 1.2s infinite ease-in-out;
+        }
+
+        @keyframes arrowBounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(8px);
+            }
+        }
+
+        /* Control de música mejorado */
+        #music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            border: 2px solid #edf2f7;
+            transition: transform 0.2s;
+        }
+
+        #music-control:active {
+            transform: scale(0.9);
+        }
+
         .count-box-lg {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
@@ -155,19 +201,28 @@
 
 <body class="min-h-screen flex items-center justify-center p-0 md:p-4">
 
+    <!-- Música de fondo - Carmen Canela (Canción de Cuna) -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="https://www.carmencanela.com/musica/nanas/duermete_nino.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Botón de música flotante -->
+    <div id="music-control" onclick="toggleMusic()" class="hidden">
+        <span id="music-icon" class="text-2xl">🎵</span>
+    </div>
+
     <div class="ethereal-bg">
         <div class="floating-orb w-[400px] h-[400px] bg-blue-100 top-[-100px] left-[-100px]"></div>
         <div class="floating-orb w-[400px] h-[400px] bg-pink-100 bottom-[-100px] right-[-100px]"
             style="animation-delay: -5s;"></div>
     </div>
 
-    <!-- BIENVENIDA CON CUENTA REGRESIVA GRANDE -->
+    <!-- PANTALLA DE INICIO -->
     <div id="intro-screen"
         class="fixed inset-0 z-50 flex items-center justify-center bg-white transition-opacity duration-700">
         <div class="flex flex-col items-center justify-center text-center px-6 w-full max-w-lg">
             <h2 class="garamond italic text-3xl md:text-4xl mb-6 text-slate-600">Una noticia llena de amor...</h2>
 
-            <!-- Contador Grande en el Loading -->
             <div class="flex justify-center gap-3 md:gap-6 mb-12">
                 <div class="count-box-lg w-20 md:w-24 py-4 rounded-[2rem]">
                     <p id="days" class="text-3xl md:text-4xl font-bold text-slate-800">00</p>
@@ -194,17 +249,16 @@
                 </div>
                 <div class="mt-8">
                     <span class="text-[11px] tracking-[0.5em] uppercase font-bold text-slate-400 animate-pulse">Toca
-                        para abrir</span>
+                        para abrir e iniciar música</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- CONTENIDO DE LA INVITACIÓN -->
     <div id="invitation-ui" class="max-w-md w-full z-10 hidden opacity-0 transition-opacity duration-700">
         <div class="invitation-card rounded-[3.5rem] overflow-hidden">
 
-            <!-- Cabecera -->
             <div id="header-area"
                 class="py-16 px-8 text-center border-b border-slate-50 transition-colors duration-1000">
                 <span class="text-[10px] tracking-[0.4em] uppercase text-slate-500 font-bold mb-3 block reveal">Estás
@@ -218,13 +272,12 @@
 
             <div class="p-8 md:p-10 text-center">
 
-                <!-- Frase destacada -->
                 <p class="garamond italic text-3xl md:text-4xl text-slate-700 leading-tight mb-12 reveal"
                     style="transition-delay: 400ms;">
                     "Dos piecitos nuevos están por llegar para llenar nuestras vidas de alegría."
                 </p>
 
-                <!-- Dress Code -->
+                <!-- Código de Vestimenta -->
                 <div class="mb-12 reveal" style="transition-delay: 500ms;">
                     <span class="text-[10px] font-bold uppercase text-slate-400 tracking-widest mb-3 block">Código de
                         Vestimenta</span>
@@ -240,8 +293,13 @@
                 <div class="mb-12 reveal" style="transition-delay: 600ms;">
                     <div class="mb-6 text-center">
                         <p class="text-[11px] font-bold uppercase text-slate-800 tracking-widest">¿Cuál es tu bando?</p>
-                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.1em] mt-1">(Selecciona uno)
-                        </p>
+                        <p class="text-sm garamond italic text-slate-500 mt-1">Si crees que soy...</p>
+
+                        <!-- Flechas indicadoras -->
+                        <div class="flex justify-around items-center px-12 mt-4">
+                            <span class="arrow-float text-2xl text-blue-400/60">↙️</span>
+                            <span class="arrow-float text-2xl text-pink-400/60" style="animation-delay: 0.3s">↘️</span>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
@@ -257,14 +315,15 @@
                         </button>
                     </div>
 
+                    <!-- Área de Misión -->
                     <div id="mission-tab" class="mt-6 transition-all duration-500 overflow-hidden max-h-0">
-                        <div class="bg-slate-50 rounded-2xl p-5 border border-dashed border-slate-200">
-                            <p id="mission-text" class="text-xs font-medium text-slate-600 italic"></p>
+                        <div class="bg-slate-50 rounded-2xl p-6 border border-dashed border-slate-200">
+                            <p id="mission-text" class="text-sm font-semibold text-slate-700 italic"></p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Datos -->
+                <!-- Datos del evento -->
                 <div class="space-y-5 mb-10 text-left reveal" style="transition-delay: 700ms;">
                     <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-slate-50 shadow-sm">
                         <span class="text-2xl">📅</span>
@@ -295,7 +354,7 @@
                     </div>
                 </div>
 
-                <!-- Botón Confirmar -->
+                <!-- Botón Final -->
                 <div class="reveal" style="transition-delay: 800ms;">
                     <button onclick="openModal()" id="final-btn"
                         class="btn-confirm w-full py-5 rounded-full font-bold text-xs uppercase tracking-widest shadow-lg disabled:opacity-20 disabled:cursor-not-allowed"
@@ -309,7 +368,7 @@
         </div>
     </div>
 
-    <!-- MODAL -->
+    <!-- MODAL DE CONFIRMACIÓN -->
     <div id="confirm-modal"
         class="fixed inset-0 z-[100] modal-blur flex items-center justify-center p-6 hidden opacity-0 transition-opacity duration-300">
         <div class="bg-white w-full max-w-sm rounded-[3rem] p-10 shadow-2xl relative">
@@ -352,19 +411,45 @@
     <script>
         let selectedTeam = null;
         let guestData = { name: "", team: "" };
+        const music = document.getElementById('bg-music');
+        const musicControl = document.getElementById('music-control');
+        const musicIcon = document.getElementById('music-icon');
 
-        // Lógica de cuenta regresiva
+        // Función de reproducción robusta
+        function playAudio() {
+            music.muted = false;
+            // Intentar reproducir con la nueva fuente de Carmen Canela
+            const playPromise = music.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    musicIcon.innerText = "🎵";
+                    musicControl.classList.remove('hidden');
+                }).catch(error => {
+                    console.log("Auto-play prevenido, esperando interacción del usuario.");
+                });
+            }
+        }
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicIcon.innerText = "🎵";
+            } else {
+                music.pause();
+                musicIcon.innerText = "🔇";
+            }
+        }
+
+        // Cuenta regresiva
         const targetDate = new Date("Jan 17, 2026 18:00:00").getTime();
         function updateCountdown() {
             const now = new Date().getTime();
             const gap = targetDate - now;
-
             const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
-
             const d = Math.floor(gap / day);
             const h = Math.floor((gap % day) / hour);
             const m = Math.floor((gap % hour) / minute);
-
             document.getElementById("days").innerText = d < 10 ? "0" + d : d;
             document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
             document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
@@ -372,7 +457,11 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
+        // Iniciar experiencia
         function startExperience() {
+            // Activar música en la interacción explícita
+            playAudio();
+
             const intro = document.getElementById('intro-screen');
             const ui = document.getElementById('invitation-ui');
             intro.style.opacity = '0';
@@ -382,7 +471,6 @@
                 setTimeout(() => {
                     ui.style.opacity = '1';
                     document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
-                    // Confeti inicial
                     confetti({ particleCount: 150, spread: 70, origin: { y: 0.7 }, colors: ['#B2D7FF', '#FFC4D6'] });
                 }, 100);
             }, 700);
@@ -404,32 +492,20 @@
 
             btnBoy.classList.remove('active-boy', 'team-pulse');
             btnGirl.classList.remove('active-girl', 'team-pulse');
-            missionTab.style.maxHeight = '150px';
+            missionTab.style.maxHeight = '200px';
             finalBtn.disabled = false;
             note.classList.add('hidden');
 
             if (team === 'boy') {
                 btnBoy.classList.add('active-boy');
                 header.style.background = '#F0F9FF';
-                missionText.innerHTML = "✨ ¡Genial! Tu misión es apoyarnos con un <b>paquete de pañales</b>.";
-                // Confeti Azul
-                confetti({
-                    particleCount: 100,
-                    spread: 60,
-                    origin: { y: 0.8 },
-                    colors: ['#B2D7FF', '#3182CE', '#EBF8FF']
-                });
+                missionText.innerHTML = "✨ Tu misión es: <br><span class='text-lg block mt-1'>Traer un paquete de Pañales</span>";
+                confetti({ particleCount: 100, spread: 60, origin: { y: 0.8 }, colors: ['#B2D7FF', '#3182CE'] });
             } else {
                 btnGirl.classList.add('active-girl');
                 header.style.background = '#FFF5F7';
-                missionText.innerHTML = "✨ ¡Hermoso! Tu misión es apoyarnos con un <b>paquete de toallitas</b>.";
-                // Confeti Rosa
-                confetti({
-                    particleCount: 100,
-                    spread: 60,
-                    origin: { y: 0.8 },
-                    colors: ['#FFC4D6', '#D53F8C', '#FFF5F7']
-                });
+                missionText.innerHTML = "✨ Tu misión es: <br><span class='text-lg block mt-1'>Traer un paquete de toallitas</span>";
+                confetti({ particleCount: 100, spread: 60, origin: { y: 0.8 }, colors: ['#FFC4D6', '#D53F8C'] });
             }
         }
 
@@ -447,16 +523,16 @@
         }
 
         function submitConfirmation() {
-            const name = document.getElementById('guest-name').value;
+            const nameInput = document.getElementById('guest-name');
+            const name = nameInput.value;
             if (!name.trim()) {
-                document.getElementById('guest-name').focus();
+                nameInput.focus();
                 return;
             }
             guestData.name = name;
             guestData.team = selectedTeam === 'boy' ? "#TeamNiño 👔" : "#TeamNiña 🎀";
             document.getElementById('modal-form').classList.add('hidden');
             document.getElementById('modal-thanks').classList.remove('hidden');
-            // Confeti de éxito
             confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
         }
 
